@@ -11,11 +11,12 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3  # Clona el repositorio
 
-    - name: Set up GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Build and Deploy
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages  # Rama de destino para GitHub Pages
-        publish_dir: ./  # Directorio a desplegar (raíz del repositorio)
+        branch: gh-pages  # Rama de destino para GitHub Pages
+        folder: './'  # Directorio a desplegar (raíz del repositorio)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token para autenticación
