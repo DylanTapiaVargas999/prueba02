@@ -28,18 +28,23 @@ jobs:
         with:
           dotnet-version: '6.0'  # Cambia esta versión si estás utilizando otra versión de .NET
 
-      # Paso 3: Restaurar dependencias de .NET
+      # Paso 3: Restaurar dependencias de .NET especificando la ruta al archivo `.csproj`
       - name: Restore .NET dependencies
-        run: dotnet restore
+        run: |
+          cd project/AppTest  # Cambia al directorio del proyecto
+          dotnet restore AppTest.csproj  # Apunta al archivo .csproj de tu proyecto de pruebas
 
       # Paso 4: Construir el proyecto .NET
       - name: Build .NET project
-        run: dotnet build --configuration Release
+        run: |
+          cd project/AppTest  # Asegúrate de estar en el directorio correcto
+          dotnet build AppTest.csproj --configuration Release
 
       # Paso 5: Ejecutar las pruebas con MSTest
       - name: Run Playwright Tests
         run: |
-          dotnet test --logger "trx;LogFileName=test-results.trx"
+          cd project/AppTest  # Asegúrate de estar en el directorio correcto
+          dotnet test AppTest.csproj --logger "trx;LogFileName=test-results.trx"
 
       # Paso 6: Subir resultados de las pruebas
       - name: Upload test results
