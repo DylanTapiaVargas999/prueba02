@@ -1,17 +1,14 @@
-# Usar una imagen base de Node.js
-FROM node:18
+# Usar la imagen oficial de PHP (en este caso PHP 8.2)
+FROM php:8.2-cli
 
-# Crear y establecer el directorio de trabajo
-WORKDIR /app
+# Establecer el directorio de trabajo dentro del contenedor
+WORKDIR /var/www/html
 
-# Copiar los archivos de tu proyecto a la imagen
+# Copiar todo el contenido de tu proyecto al contenedor
 COPY . .
 
-# Instalar las dependencias
-RUN npm install
+# Exponer el puerto 8000 (el mismo que usas en tu máquina local)
+EXPOSE 8000
 
-# Exponer el puerto en el que tu app estará corriendo
-EXPOSE 3000
-
-# Comando por defecto para iniciar la aplicación
-CMD ["npm", "start"]
+# Iniciar el servidor PHP en el puerto 8000
+CMD ["php", "-S", "0.0.0.0:8000"]
