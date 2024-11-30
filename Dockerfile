@@ -1,14 +1,14 @@
-# Usar la imagen oficial de PHP (en este caso PHP 8.2)
-FROM php:8.2-cli
+# Usar la imagen oficial de Playwright
+FROM mcr.microsoft.com/playwright:v1.28.0-focal
 
-# Establecer el directorio de trabajo dentro del contenedor
-WORKDIR /var/www/html
+# Establecer el directorio de trabajo
+WORKDIR /app
 
-# Copiar todo el contenido de tu proyecto al contenedor
+# Copiar los archivos del proyecto (asegúrate de que esté el archivo package.json)
 COPY . .
 
-# Exponer el puerto 8000 (el mismo que usas en tu máquina local)
-EXPOSE 8000
+# Instalar las dependencias
+RUN npm install
 
-# Iniciar el servidor PHP en el puerto 8000
-CMD ["php", "-S", "0.0.0.0:8000"]
+# Ejecutar las pruebas de Playwright
+CMD ["npx", "playwright", "test"]
