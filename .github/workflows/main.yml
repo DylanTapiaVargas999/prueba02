@@ -22,38 +22,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Paso 2: Configurar Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      # Paso 3: Instalar dependencias de Playwright
-      - name: Install Playwright dependencies
-        run: |
-          npm install
-          npm install playwright
-
-      # Paso 4: Instalar .NET SDK
+      # Paso 2: Instalar .NET SDK
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0'  # Cambia esta versión si estás utilizando otra versión de .NET
 
-      # Paso 5: Restaurar dependencias de .NET
+      # Paso 3: Restaurar dependencias de .NET
       - name: Restore .NET dependencies
         run: dotnet restore
 
-      # Paso 6: Construir el proyecto .NET
+      # Paso 4: Construir el proyecto .NET
       - name: Build .NET project
         run: dotnet build --configuration Release
 
-      # Paso 7: Ejecutar las pruebas con MSTest
+      # Paso 5: Ejecutar las pruebas con MSTest
       - name: Run Playwright Tests
         run: |
           dotnet test --logger "trx;LogFileName=test-results.trx"
 
-      # Paso 8: Subir resultados de las pruebas
+      # Paso 6: Subir resultados de las pruebas
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
@@ -61,7 +49,7 @@ jobs:
           name: test-results
           path: test-results.trx
 
-      # Paso 9: Subir videos y trazas de Playwright (si se generan)
+      # Paso 7: Subir videos y trazas de Playwright (si se generan)
       - name: Upload Playwright trace and videos
         uses: actions/upload-artifact@v3
         with:
